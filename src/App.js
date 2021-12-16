@@ -6,7 +6,7 @@ import PersonalizedPageComponent from "./components/personalizedPage/personalize
 
 function App() {
   const [isLoggedIn, setLoggedIn] = React.useState(false);
-  return <main className="App">{isLoggedIn ? PersonalizedPageComponent : AccountComponent}</main>;
+  return <main className="App">{isLoggedIn ? <PersonalizedPageComponent /> : <AccountComponent />}</main>;
 }
 
 export default App;

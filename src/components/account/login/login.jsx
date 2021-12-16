@@ -1,10 +1,20 @@
 import React from "react";
-import styles from "./login.module.css";
+
+import themes from "../../../styles/muiCustomThemes";
+
+import styles from "../../../styles/styles";
+
+import { ThemeProvider } from "@mui/material/styles";
 
 import Stack from "@mui/material/Stack";
-import OutlinedInput from "@mui/material/OutlinedInput";
+import { TextField } from "@mui/material";
 
 export default function Login() {
-  return;
-  <div></div>;
+  return (
+    <ThemeProvider theme={themes.accountCardTheme}>
+      <Stack direction="column" spacing={2}>
+        <TextField variant="filled" id="username-input" label="Username" required={true} />
+      </Stack>
+    </ThemeProvider>
+  );
 }
