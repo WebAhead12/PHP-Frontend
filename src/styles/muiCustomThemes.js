@@ -13,9 +13,10 @@ import { createTheme } from "@mui/material/styles";
 // --default-toggle-background-off-color: #6d6767;
 // --default-toggle-background-on-color: #fc6161;
 
-const accountCardTheme = createTheme({
+const accountTheme = createTheme({
   palette: {
     primary: { main: "#e3e3e3" },
+    button_primary: { main: "#1d1e22", contrastText: "#e3e3e3" }
   },
   components: {
     MuiCard: {
@@ -25,14 +26,31 @@ const accountCardTheme = createTheme({
           maxWidth: "480px",
           height: "calc(75% - 30px)",
 
-          margin: "15px auto",
-          backgroundColor: "var(--default-background-color)",
+          margin: "10vh auto",
+          backgroundColor: "var(--default-account-background-color)",
         },
+      },
+    },
+    MuiFormLabel: {
+      styleOverrides: {
+        root: {
+          color: "var(--default-account-text-color)"
+        }
+      }
+    },
+    MuiFilledInput: {
+      styleOverrides: {
+        root: {
+          backgroundColor: "var(--default-menu-button-color)",
+        },
+        input: {
+          color: "var(--default-account-text-color)"
+        }
       },
     },
   },
 });
 
-const exports = { accountCardTheme };
+const exports = { accountTheme };
 
 export default exports;
