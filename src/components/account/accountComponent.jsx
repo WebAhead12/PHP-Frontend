@@ -17,8 +17,8 @@ export default function AccountComponent() {
     <>
       <img src="./assets/Logo.png" alt="Logo" style={styles.accountLogoStyle} />
       <ThemeProvider theme={themes.accountTheme}>
-        <Card raised={true} sx={{ height: isRegisterMode ? "240px" : "360px" }}>
-          {isRegisterMode ? <RegisterComponent /> : <LoginComponent />}
+        <Card raised sx={{ height: isRegisterMode ? "360px" : "240px" }}>
+          {isRegisterMode ? <RegisterComponent setRegister={setRegisterMode} /> : <LoginComponent setRegister={setRegisterMode} />}
         </Card>
       </ThemeProvider>
     </>
