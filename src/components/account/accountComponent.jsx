@@ -11,14 +11,18 @@ import { Card } from "@mui/material";
 import LoginComponent from "./login/login";
 import RegisterComponent from "./register/register";
 
-export default function AccountComponent() {
+export default function AccountComponent({ setLoggedIn }) {
   const [isRegisterMode, setRegisterMode] = React.useState(false);
   return (
     <>
       <img src="./assets/Logo.png" alt="Logo" style={styles.accountLogoStyle} />
       <ThemeProvider theme={themes.accountTheme}>
-        <Card raised sx={{ height: isRegisterMode ? "360px" : "240px" }}>
-          {isRegisterMode ? <RegisterComponent setRegister={setRegisterMode} /> : <LoginComponent setRegister={setRegisterMode} />}
+        <Card raised sx={{ height: isRegisterMode ? "360px" : "280px" }}>
+          {isRegisterMode ? (
+            <RegisterComponent setRegister={setRegisterMode} />
+          ) : (
+            <LoginComponent setRegister={setRegisterMode} setLoggedIn={setLoggedIn} />
+          )}
         </Card>
       </ThemeProvider>
     </>

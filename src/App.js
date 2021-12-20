@@ -6,7 +6,15 @@ import PersonalizedPageComponent from "./components/personalizedPage/personalize
 
 function App() {
   const [isLoggedIn, setLoggedIn] = React.useState(false);
-  return <main className="App">{isLoggedIn ? <PersonalizedPageComponent /> : <AccountComponent />}</main>;
+  const token = window.localStorage.getItem("access_token");
+
+  React.useEffect(() => {
+    if (token) {
+      setLoggedIn(true);
+    }
+  }, []);
+
+  return <main className="App">{isLoggedIn ? <PersonalizedPageComponent /> : <AccountComponent setLoggedIn={setLoggedIn} />}</main>;
 }
 
 export default App;
