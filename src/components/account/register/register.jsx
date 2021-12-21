@@ -48,12 +48,12 @@ export default function Register({ setRegister }) {
       setError(errObj.WRONG_CONFIRMATION_PASSWORD);
       return;
     }
-    if (str == "taken") {
+    if (str === "taken") {
       setUsernameError(true);
       setError(errObj.USERNAME_TAKEN);
       return;
     }
-    if (str == "nottaken") setRegister(false);
+    if (str === "nottaken") setRegister(false);
   };
 
   const registerUser = () => {

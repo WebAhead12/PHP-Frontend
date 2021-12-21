@@ -79,6 +79,7 @@ export default function Login({ setRegister, setLoggedIn }) {
             id="username-input"
             label="Username"
             error={usernameError ? true : false}
+            inputProps={{ autoComplete: "new-password" }}
             onChange={(e) => setUsername(e.target.value)}
           />
           <TextField
