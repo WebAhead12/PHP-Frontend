@@ -16,7 +16,7 @@ import { createTheme } from "@mui/material/styles";
 const accountTheme = createTheme({
   palette: {
     primary: { main: "#e3e3e3" },
-    button_primary: { main: "#1d1e22", contrastText: "#e3e3e3" }
+    button_primary: { main: "#1d1e22", contrastText: "#e3e3e3" },
   },
   components: {
     MuiCard: {
@@ -34,9 +34,9 @@ const accountTheme = createTheme({
     MuiFormLabel: {
       styleOverrides: {
         root: {
-          color: "var(--default-account-text-color)"
-        }
-      }
+          color: "var(--default-account-text-color)",
+        },
+      },
     },
     MuiFilledInput: {
       styleOverrides: {
@@ -44,13 +44,63 @@ const accountTheme = createTheme({
           backgroundColor: "var(--default-menu-button-color)",
         },
         input: {
-          color: "var(--default-account-text-color)"
-        }
+          color: "var(--default-account-text-color)",
+        },
       },
     },
   },
 });
 
-const exports = { accountTheme };
+const menuToggleTheme = createTheme({
+  palette: {
+    primary: { main: "#e3e3e3" },
+    button_primary: { main: "#1d1e22", contrastText: "#e3e3e3" },
+  },
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          width: "calc(100%-1px)",
+          height: "24.1%",
+          border: "1px solid #000000",
+          backgroundColor: "var(--default-menu-button-color)",
+          color: "var(--default-text-color)",
+          fontSize: "30px",
+        },
+      },
+    },
+  },
+});
+
+const menuTheme = createTheme({
+  palette: {
+    primary: { main: "#e3e3e3" },
+    button_primary: { main: "#1d1e22", contrastText: "#e3e3e3" },
+  },
+  components: {
+    MuiCard: {
+      stylesOverrides: {
+        root: {
+          width: "81.5%",
+          height: "20.1%",
+          backgroundColor: "var(--default-account-background-color)",
+        },
+      },
+    },
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          width: "calc(100%-15px)",
+          height: "24.1%",
+          backgroundColor: "var(--default-menu-background-color)",
+          color: "var(--default-text-color)",
+          fontSize: "20px",
+        },
+      },
+    },
+  },
+});
+
+const exports = { accountTheme, menuTheme };
 
 export default exports;

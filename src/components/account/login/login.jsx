@@ -11,6 +11,7 @@ const errObj = {
   MISSING_PASSWORD: "Please enter a password",
   WRONG_USERNAME: "Username not found",
   WRONG_PASSWORD: "Password is incorrect",
+  ERROR: "An error has occurred",
 };
 
 export default function Login({ setRegister, setLoggedIn }) {
@@ -49,6 +50,7 @@ export default function Login({ setRegister, setLoggedIn }) {
           return response.json();
         })
         .then((data) => {
+          console.log(data);
           if (data.response === "noUser") {
             setUsernameError(true);
             setError(errObj.WRONG_USERNAME);
@@ -57,9 +59,11 @@ export default function Login({ setRegister, setLoggedIn }) {
           } else if (data.response === "wrong password") {
             setPasswordError(true);
             return setError(errObj.WRONG_PASSWORD);
-          } else {
+          } else if (data.response === "success") {
             window.localStorage.setItem("access_token", data.access_token);
             setLoggedIn(true);
+          } else {
+            setError(errObj.ERROR);
           }
         });
     }
@@ -89,7 +93,7 @@ export default function Login({ setRegister, setLoggedIn }) {
           />
         </Stack>
       </CardContent>
-      <CardContent>{error}</CardContent>
+      <CardContent sx={{ color: "red" }}>{error}</CardContent>
       <CardContent>
         <Stack direction="row" spacing={1} justifyContent="center">
           <Button
