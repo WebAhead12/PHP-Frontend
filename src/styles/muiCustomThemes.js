@@ -52,10 +52,6 @@ const accountTheme = createTheme({
 });
 
 const menuToggleTheme = createTheme({
-  palette: {
-    primary: { main: "#e3e3e3" },
-    button_primary: { main: "#1d1e22", contrastText: "#e3e3e3" },
-  },
   components: {
     MuiButton: {
       styleOverrides: {
@@ -73,17 +69,14 @@ const menuToggleTheme = createTheme({
 });
 
 const menuTheme = createTheme({
-  palette: {
-    primary: { main: "#e3e3e3" },
-    button_primary: { main: "#1d1e22", contrastText: "#e3e3e3" },
-  },
   components: {
     MuiCard: {
-      stylesOverrides: {
+      styleOverrides: {
         root: {
           width: "81.5%",
-          height: "20.1%",
-          backgroundColor: "var(--default-account-background-color)",
+          height: "35%",
+          backgroundColor: "var(--default-menu-button-color)",
+          margin: "auto",
         },
       },
     },
@@ -92,7 +85,7 @@ const menuTheme = createTheme({
         root: {
           width: "calc(100%-15px)",
           height: "24.1%",
-          backgroundColor: "var(--default-menu-background-color)",
+          backgroundColor: "var(--default-menu-button-color)",
           color: "var(--default-text-color)",
           fontSize: "20px",
         },
@@ -101,6 +94,6 @@ const menuTheme = createTheme({
   },
 });
 
-const exports = { accountTheme, menuTheme };
+const exports = { accountTheme, menuTheme, menuToggleTheme };
 
 export default exports;
