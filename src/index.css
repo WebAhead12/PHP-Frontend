@@ -25,3 +25,8 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
+
+@font-face {
+  font-family: "Montbold";
+  src: url("./FontsFree-Net-Mont-Bold.ttf") format("truetype");
+}
