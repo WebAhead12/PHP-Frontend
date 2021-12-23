@@ -12,6 +12,8 @@ import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 
 import { Stack, Button, CardContent } from "@mui/material";
 
+import utils from "../../../utils/util"
+
 function BuildMenu({ menuToggle, setEditMenu, editMenu }) {
   return (
     <ThemeProvider theme={themes.menuTheme}>
@@ -20,7 +22,16 @@ function BuildMenu({ menuToggle, setEditMenu, editMenu }) {
           <Stack direction="column" spacing={2} alignContent="center">
             <Button variant="contained">Add Module</Button>
             <label style={{ width: "100%" }} htmlFor="contained-button-file">
-              <input accept="image/*" id="contained-button-file" type="file" style={{ display: "none" }} />
+              <input accept="image/*" id="contained-button-file" type="file" style={{ display: "none" }} onChange={(e) => {
+                utils.imageToBase64(e.target.files[0]).then((imageBase64) => {
+                  document.body.style.backgroundImage = `url(${imageBase64})`
+                  fetch(process.env.REACT_APP_API + `/update/${localStorage.getItem("access_token")}`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json", Authorization: `Bearer ${window.localStorage.getItem("access_token")}` },
+                    body: JSON.stringify({ background: imageBase64 }),
+                  })
+                })
+              }} />
               <Button variant="contained" sx={{ width: "100%" }} component="span">
                 Change Background
               </Button>
