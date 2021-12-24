@@ -12,6 +12,19 @@ export default function PersonalizedPageComponent() {
   const [imageCheck, setImageCheck] = React.useState(false);
   const [textCheck, setTextCheck] = React.useState(false);
   const [shortcutMode, setShortcutMode] = React.useState(false);
+
+  React.useEffect(() => {
+    fetch(process.env.REACT_APP_API + "/background", {
+      headers: { Authorization: `Bearer ${window.localStorage.getItem("access_token")}` },
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data.background);
+        document.body.style.backgroundImage = `url(${data.background})`;
+      });
+  }, []);
   document.body.style.backgroundColor = "#4D4D54";
   const editMenuObj = {
     editMenu: editMenu,

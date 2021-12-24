@@ -50,7 +50,6 @@ export default function Login({ setRegister, setLoggedIn }) {
           return response.json();
         })
         .then((data) => {
-          document.body.style.backgroundImage = `url(${data.background})`
           if (data.response === "noUser") {
             setUsernameError(true);
             setError(errObj.WRONG_USERNAME);
