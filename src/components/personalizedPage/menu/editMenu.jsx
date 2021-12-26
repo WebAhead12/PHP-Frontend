@@ -6,7 +6,7 @@ import { ThemeProvider } from "@mui/material/styles";
 
 import { Stack, Button, CardContent, Card, Switch } from "@mui/material";
 
-function BuildEditMenu({ shortcutMode, setShortcutMode, imageCheck, setImageCheck, textCheck, setTextCheck }) {
+function BuildEditMenu({ currentModule, saveCurrentModuleData, shortcutMode, setShortcutMode, imageCheck, setImageCheck, textCheck, setTextCheck }) {
   return (
     <Card>
       <CardContent>
@@ -39,7 +39,7 @@ function BuildEditMenu({ shortcutMode, setShortcutMode, imageCheck, setImageChec
           </Stack>
           {textCheck ? (
             <label style={{ width: "100%" }} htmlFor="contained-button-file">
-              <input id="contained-button-file" type="text" />
+              <input id="contained-button-file" type="text" onKeyDown={(e) => e.key === "Enter" ? saveCurrentModuleData({ ...currentModule, text: e.target.value }) : null} />
             </label>
           ) : null}
           <Stack sx={{ display: "block" }} direction="row" space="1" alignContent="center">
@@ -57,18 +57,12 @@ function BuildEditMenu({ shortcutMode, setShortcutMode, imageCheck, setImageChec
     </Card>
   );
 }
-export default function editMenu({ editMenu, shortcutMode, setShortcutMode, imageCheck, setImageCheck, textCheck, setTextCheck }) {
-  console.log(editMenu);
+export default function editMenu(props) {
   return (
     <>
       {editMenu ? (
         <BuildEditMenu
-          shortcutMode={shortcutMode}
-          setShortcutMode={setShortcutMode}
-          imageCheck={imageCheck}
-          setImageCheck={setImageCheck}
-          textCheck={textCheck}
-          setTextCheck={setTextCheck}
+          {...props}
         ></BuildEditMenu>
       ) : null}
     </>

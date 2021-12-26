@@ -6,7 +6,8 @@ import styles from "../../../styles/styles";
 
 export default function PhpModule({
   moduleid,
-  editMode = true,
+  onClickFunction,
+  editMode = false,
   shortcutMode = true,
   x = 0,
   y = 0,
@@ -56,6 +57,7 @@ export default function PhpModule({
         style={{
           backgroundColor: `rgba(${saved == 1 ? 0 : 255},${saved == -1 ? 0 : 255},${saved != 0 ? 0 : 255},${editMode ? (saved ? 0.5 : 0.075) : 0})`,
         }}
+        onClick={onClickFunction}
       >
         {image ? <img alt="img" style={shortcutMode ? styles.moduleShortcutImage : styles.moduleImage} src={image}></img> : null}
 
