@@ -38,16 +38,18 @@ export default function PersonalizedPageComponent() {
         return response.json();
       })
       .then((data) => {
-        setModulesList(data.modules || []);
+        console.log(data);
+        setModulesList(data.modules.map((module) => ({ ...module.module, moduleid: module.id })) || [])
       });
   }, []);
 
   React.useEffect(() => {
-    setText(currentModule.text);
-    setTextCheck(!!currentModule.text);
-    setImageCheck(!!currentModule.image);
-    setShortcutMode(!!currentModule.shortcutMode);
-  }, [currentModule]);
+    setText(currentModule.text)
+    setTextCheck(!!currentModule.text)
+    setImageCheck(!!currentModule.image)
+    setShortcutMode(!!currentModule.shortcutMode)
+    console.log(currentModule);
+  }, [currentModule])
 
   React.useEffect(() => {
     setModulesList(modulesList.map((module) => (module.moduleid == currentModule.moduleid ? { ...module, text: text } : module)));
@@ -71,6 +73,8 @@ export default function PersonalizedPageComponent() {
     );
   }, [shortcutMode]);
 
+  React.useEffect(() => { console.log(modulesList); }, [modulesList])
+
   React.useEffect(() => {
     if (!deleteModule) return;
     setDeleteModule(false);
@@ -81,9 +85,14 @@ export default function PersonalizedPageComponent() {
     fetch(process.env.REACT_APP_API + "/delete", {
       method: "POST",
       headers: { "Content-Type": "application/json", Authorization: `Bearer ${window.localStorage.getItem("access_token")}` },
-      body: JSON.stringify({ id: tempid }),
-    });
-  }, [deleteModule]);
+      body: JSON.stringify({ id: tempid })
+    }).then((response) => {
+      return response.json();
+    })
+      .then((data) => {
+        console.log(data);
+      });
+  }, [deleteModule])
 
   document.body.style.backgroundColor = "#4D4D54";
 
