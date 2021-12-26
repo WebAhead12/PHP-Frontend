@@ -11,7 +11,13 @@ import { createTheme } from "@mui/material/styles";
 // --default-menu-button-hover-color: #18191d;
 
 // --default-toggle-background-off-color: #6d6767;
-// --default-toggle-background-on-color: #fc6161;
+// --default-toggle-background-on-color: #fc6161;'
+
+const search = createTheme({
+  palette: {
+    primary: { main: "#fc6161" },
+  },
+});
 
 const accountTheme = createTheme({
   palette: {
@@ -74,7 +80,7 @@ const editMenu = createTheme({
           opacity: "1 !important",
           borderRadius: 20,
           position: "relative",
-          "&:checked": {},
+
           "&:before, &:after": {
             display: "inline-block",
             position: "absolute",
@@ -172,6 +178,6 @@ const menuTheme = createTheme({
   },
 });
 
-const exports = { accountTheme, menuTheme, menuToggleTheme, editMenu };
+const exports = { accountTheme, menuTheme, menuToggleTheme, editMenu, search };
 
 export default exports;

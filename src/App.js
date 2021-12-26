@@ -17,7 +17,7 @@ function App() {
   return (
     <main className="App">
       {isLoggedIn ? (
-        <PersonalizedPageComponent sx={{ backgroundColor: "#4D4D54" }} />
+        <PersonalizedPageComponent setLoggedIn={setLoggedIn} sx={{ backgroundColor: "#4D4D54" }} />
       ) : (
         <AccountComponent setLoggedIn={setLoggedIn} />
       )}

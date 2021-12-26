@@ -6,12 +6,11 @@ import Menu from "./menu/menu.jsx";
 
 import EditMenu from "./menu/editMenu.jsx";
 
+import Search from "./search/search.jsx";
+
 import LogOut from "./logOut/logOut";
 
-import { v4 as uuidv4 } from 'uuid';
-
-
-export default function PersonalizedPageComponent() {
+export default function PersonalizedPageComponent({ setLoggedIn }) {
   const [modulesList, setModulesList] = React.useState([]);
   const [currentModule, setCurrentModule] = React.useState({});
   const [editMenu, setEditMenu] = React.useState(false);
@@ -41,17 +40,17 @@ export default function PersonalizedPageComponent() {
         return response.json();
       })
       .then((data) => {
-        setModulesList(data.modules.map((module) => ({ ...module.module, moduleid: module.id })) || [])
+        setModulesList(data.modules.map((module) => ({ ...module.module, moduleid: module.id })) || []);
       });
   }, []);
 
   React.useEffect(() => {
-    setText(currentModule.text)
-    setTextCheck(!!currentModule.text)
-    setImageCheck(!!currentModule.image)
-    setShortcutMode(!!currentModule.shortcutMode)
+    setText(currentModule.text);
+    setTextCheck(!!currentModule.text);
+    setImageCheck(!!currentModule.image);
+    setShortcutMode(!!currentModule.shortcutMode);
     console.log(currentModule);
-  }, [currentModule])
+  }, [currentModule]);
 
   React.useEffect(() => {
     setModulesList(modulesList.map((module) => (module.moduleid == currentModule.moduleid ? { ...module, text: text } : module)));
@@ -85,14 +84,15 @@ export default function PersonalizedPageComponent() {
     fetch(process.env.REACT_APP_API + "/delete", {
       method: "POST",
       headers: { "Content-Type": "application/json", Authorization: `Bearer ${window.localStorage.getItem("access_token")}` },
-      body: JSON.stringify({ id: tempid })
-    }).then((response) => {
-      return response.json();
+      body: JSON.stringify({ id: tempid }),
     })
+      .then((response) => {
+        return response.json();
+      })
       .then((data) => {
         setModulesList((prev) => [...prev.slice(0, indx), ...prev.slice(indx + 1)]);
       });
-  }, [deleteModule, modulesList])
+  }, [deleteModule, modulesList]);
 
   document.body.style.backgroundColor = "#4D4D54";
 
@@ -112,8 +112,6 @@ export default function PersonalizedPageComponent() {
     setDeleteModule: setDeleteModule,
   };
 
-
-
   return (
     <div style={{ position: "relative", height: "98vh", width: "98vw" }}>
       <Menu
@@ -124,6 +122,7 @@ export default function PersonalizedPageComponent() {
         editMenu={editMenu}
         setEditMenu={setEditMenu}
       ></Menu>
+      <Search></Search>
       <EditMenu {...editMenuObj}></EditMenu>
       <div
         style={{
@@ -138,11 +137,18 @@ export default function PersonalizedPageComponent() {
       >
         {modulesList.map((moduleData) => {
           return (
-            <PhpModule key={moduleData.moduleid} {...moduleData} editMode={editMenu} setModulesList={setModulesList} currentModule={currentModule} onClickFunction={() => setCurrentModule(moduleData)} />
+            <PhpModule
+              key={moduleData.moduleid}
+              {...moduleData}
+              editMode={editMenu}
+              setModulesList={setModulesList}
+              currentModule={currentModule}
+              onClickFunction={() => setCurrentModule(moduleData)}
+            />
           );
         })}
       </div>
-      <LogOut></LogOut>
+      <LogOut setLoggedIn={setLoggedIn}></LogOut>
     </div>
   );
 }

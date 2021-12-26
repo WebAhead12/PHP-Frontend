@@ -40,7 +40,7 @@ function BuildEditMenu({
         <Card>
           <CardContent>
             <Stack direction="column" space="2" alignContent="center">
-              <Stack sx={{ display: "block" }} direction="row" space="2" alignContent="center">
+              <Stack justifyContent="space-between" direction="row" space="2" alignContent="center">
                 <span style={{ alignSelf: "center", color: "#fc6161", fontSize: "25px" }}>{"Image"}</span>
                 <Switch
                   checked={imageCheck}
@@ -67,7 +67,7 @@ function BuildEditMenu({
                   </Button>
                 </label>
               ) : null}
-              <Stack sx={{ display: "block" }} direction="row" space="2" alignContent="center">
+              <Stack direction="row" justifyContent="space-between" space={12} alignContent="center">
                 <span style={{ alignSelf: "center", color: "#fc6161", fontSize: "25px" }}>{"Text"}</span>
                 <Switch
                   checked={textCheck}
@@ -90,7 +90,7 @@ function BuildEditMenu({
                   placeholder="Press enter to submit..."
                 />
               ) : null}
-              <Stack sx={{ display: "block" }} direction="row" space="5" alignContent="center">
+              <Stack justifyContent="space-between" direction="row" space="5" alignContent="center">
                 <span style={{ alignSelf: "center", color: "#fc6161", fontSize: "22px" }}>{"Shortcut"}</span>
                 <Switch
                   checked={shortcutMode}

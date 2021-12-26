@@ -4,10 +4,30 @@ import LogoutIcon from "@mui/icons-material/Logout";
 
 import { Stack } from "@mui/material";
 
-export default function LogOut() {
+export default function LogOut({ setLoggedIn }) {
   return (
-    <Stack direction="row" spacing={2} alignContent="center">
-      <LogoutIcon sx={{ position: "absolute", bottom: "clamp(10px,1%,50px)", transform: "scale(3)", left: "10px" }}></LogoutIcon>
-    </Stack>
+    <>
+      <Stack
+        sx={{ position: "absolute", bottom: "min(50px,0.2%)", left: "clamp(20px,1%,35px)" }}
+        direction="row"
+        spacing={{ xs: 3 }}
+        alignContent="center"
+      >
+        <LogoutIcon
+          onClick={() => {
+            document.body.style.backgroundImage = "";
+            setLoggedIn(false);
+            window.localStorage.removeItem("access_token");
+          }}
+          sx={{ transform: "scale(-2.5)" }}
+        ></LogoutIcon>
+        <span style={{ alignSelf: "center", color: "#fc6161", fontSize: "25px" }}>{"Image"}</span>
+      </Stack>
+      <img
+        src="./assets/Logo.png"
+        alt="Logo"
+        style={{ position: "absolute", bottom: "clamp(0.5px,0.1%,50px)", right: "5px ", height: "calc(8% - 15px)", objectFit: "cover" }}
+      />
+    </>
   );
 }
