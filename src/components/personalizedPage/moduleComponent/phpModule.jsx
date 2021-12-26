@@ -6,9 +6,10 @@ import styles from "../../../styles/styles";
 
 export default function PhpModule({
   moduleid,
+  currentModule,
   onClickFunction,
   editMode = false,
-  shortcutMode = true,
+  shortcutMode = false,
   x = 0,
   y = 0,
   width = 100,
@@ -36,7 +37,7 @@ export default function PhpModule({
         setSaved(-1);
         setTimeout(setSaved, 1000, 0);
       });
-  }, [getPosition, getSize]);
+  }, [getPosition, getSize, text, image]);
   return (
     <>
       <Rnd
@@ -56,6 +57,7 @@ export default function PhpModule({
         bounds="parent"
         style={{
           backgroundColor: `rgba(${saved == 1 ? 0 : 255},${saved == -1 ? 0 : 255},${saved != 0 ? 0 : 255},${editMode ? (saved ? 0.5 : 0.075) : 0})`,
+          border: `${editMode ? `2px solid ${currentModule.moduleid == moduleid ? "blue" : "gray"}` : ""}`
         }}
         onClick={onClickFunction}
       >

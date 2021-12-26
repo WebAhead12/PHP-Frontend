@@ -2,16 +2,25 @@ import React from "react";
 
 import themes from "../../../styles/muiCustomThemes";
 
+import utils from "../../../utils/util";
+
 import { Rnd } from "react-rnd";
 
 import { ThemeProvider } from "@mui/material/styles";
 
 import { Stack, Button, CardContent, Card, Switch } from "@mui/material";
 
-function BuildEditMenu({ text, setText, shortcutMode, setShortcutMode, imageCheck, setImageCheck, textCheck, setTextCheck }) {
+function BuildEditMenu({ currentModule, text, setText, setImage, shortcutMode, setShortcutMode, imageCheck, setImageCheck, textCheck, setTextCheck, setDeleteModule }) {
+  const [getPosition, setPosition] = React.useState([document.body.clientWidth / 2 - 125, document.body.clientHeight / 2 - 113]);
+  const [currentText, setCurrentText] = React.useState(text)
+
   return (
     <ThemeProvider theme={themes.editMenu}>
-      <Rnd dragGrid={[5, 5]} bounds="parent">
+      <Rnd dragGrid={[5, 5]} bounds="parent"
+        position={{ x: getPosition[0], y: getPosition[1] }}
+        onDragStop={(e, d) => {
+          setPosition([d.x, d.y]);
+        }}>
         <Card>
           <CardContent>
             <Stack direction="column" space="2" alignContent="center">
@@ -20,13 +29,19 @@ function BuildEditMenu({ text, setText, shortcutMode, setShortcutMode, imageChec
                 <Switch
                   checked={imageCheck}
                   onChange={() => {
-                    setImageCheck(!imageCheck);
+                    if (currentModule.moduleid)
+                      setImageCheck(!imageCheck);
                   }}
                 ></Switch>
               </Stack>
               {imageCheck ? (
-                <label style={{ width: "100%" }} htmlFor="contained-button-file">
-                  <input accept="image/*" id="contained-button-file" type="file" style={{ display: "none" }} />
+                <label style={{ width: "100%" }} htmlFor="contained-button-file-module">
+                  <input accept="image/*" id="contained-button-file-module" type="file" style={{ display: "none" }}
+                    onChange={(e) => {
+                      utils.imageToBase64(e.target.files[0]).then((imageBase64) => {
+                        setImage(imageBase64);
+                      });
+                    }} />
                   <Button variant="contained" sx={{ width: "100%" }} component="span">
                     Upload Image
                   </Button>
@@ -37,19 +52,22 @@ function BuildEditMenu({ text, setText, shortcutMode, setShortcutMode, imageChec
                 <Switch
                   checked={textCheck}
                   onChange={() => {
-                    setTextCheck(!textCheck);
+                    if (currentModule.moduleid)
+                      setTextCheck(!textCheck);
                   }}
                 ></Switch>
               </Stack>
               {textCheck ? (
                 <input
-                  value={text}
+                  value={currentText}
                   onMouseDown={(e) => e.stopPropagation()}
-                  onChange={(e) => {
-                    setText(e.target.value);
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter")
+                      return setText(e.target.value);
                   }}
+                  onChange={(e) => { setCurrentText(e.target.value) }}
                   type="text"
-                  placeholder="Text..."
+                  placeholder="Press enter to submit..."
                 />
               ) : null}
               <Stack sx={{ display: "block" }} direction="row" space="2" alignContent="center">
@@ -57,16 +75,20 @@ function BuildEditMenu({ text, setText, shortcutMode, setShortcutMode, imageChec
                 <Switch
                   checked={shortcutMode}
                   onChange={() => {
-                    setShortcutMode(!shortcutMode);
+                    if (currentModule.moduleid)
+                      setShortcutMode(!shortcutMode);
                   }}
                 ></Switch>
               </Stack>
-              <Button variant="contained">DELETE</Button>
+              <Button variant="contained" onClick={() => {
+                if (currentModule.moduleid)
+                  setDeleteModule(true)
+              }}>DELETE</Button>
             </Stack>
           </CardContent>
         </Card>
       </Rnd>
-    </ThemeProvider>
+    </ThemeProvider >
   );
 }
 export default function editMenu(props) {

@@ -14,64 +14,40 @@ import { Stack, Button, CardContent, Slide } from "@mui/material";
 
 import utils from "../../../utils/util";
 
-// function BuildMenu({ menuToggle, setEditMenu, editMenu }) {
-//   return (
-//     <Paper sx={{ m: 1 }}>
-//       <Box sx={{ height: 200 }}>
-//         1
-//         <ThemeProvider theme={themes.menuTheme}>
-//           <Card>
-//             <CardContent>
-//               <Stack direction="column" spacing={2} alignContent="center">
-//                 <Button variant="contained">Add Module</Button>
-//                 <label style={{ width: "100%" }} htmlFor="contained-button-file">
-//                   <input
-//                     accept="image/*"
-//                     id="contained-button-file"
-//                     type="file"
-//                     style={{ display: "none" }}
-//                     onChange={(e) => {
-//                       utils.imageToBase64(e.target.files[0]).then((imageBase64) => {
-//                         document.body.style.backgroundImage = `url(${imageBase64})`;
-//                         fetch(process.env.REACT_APP_API + `/update/${localStorage.getItem("access_token")}`, {
-//                           method: "POST",
-//                           headers: { "Content-Type": "application/json", Authorization: `Bearer ${window.localStorage.getItem("access_token")}` },
-//                           body: JSON.stringify({ background: imageBase64 }),
-//                         });
-//                       });
-//                     }}
-//                   />
-//                   <Button variant="contained" sx={{ width: "100%" }} component="span">
-//                     Change Background
-//                   </Button>
-//                 </label>
-//                 <Button variant="contained" onClick={() => setEditMenu(!editMenu)}>
-//                   Edit Mode
-//                 </Button>
-//                 <ThemeProvider theme={themes.menuToggleTheme}>
-//                   <Button variant="contained" sx={{ padding: "clamp(5px,5%,20px) 0" }} onClick={() => menuToggle(false)}>
-//                     <ArrowUpwardIcon sx={{ transform: "scale(1.34)" }} />
-//                   </Button>
-//                 </ThemeProvider>
-//               </Stack>
-//             </CardContent>
-//           </Card>
-//         </ThemeProvider>
-//       </Box>
-//     </Paper>
-//   );
-// }
+export default function Menu({ editMenu, setEditMenu, createModule }) {
+  const [menu, menuToggle] = React.useState(false)
+  const [closedMenu, closedToggle] = React.useState(true)
 
-export default function Menu({ menu, menuToggle, editMenu, setEditMenu }) {
+  React.useEffect(() => {
+    if (menu)
+      closedToggle(true)
+    else
+      setTimeout(closedToggle, 525, false)
+  }, [menu])
   return (
     <div>
-      <Slide direction="down" in={menu} mountOnEnter unmountOnExit>
+      <Slide direction="down" in={menu} mountOnEnter unmountOnExit timeout={500}>
         <div>
           <ThemeProvider theme={themes.menuTheme}>
             <Card>
               <CardContent>
                 <Stack direction="column" spacing={2} alignContent="center">
-                  <Button variant="contained">Add Module</Button>
+                  <Button variant="contained"
+                    onClick={() => {
+                      fetch(process.env.REACT_APP_API + "/create", {
+                        method: "POST",
+                        headers: { Authorization: `Bearer ${window.localStorage.getItem("access_token")}` },
+                        body: JSON.stringify({ "module": { image: "", text: "", position: [0, 0], size: [100, 100] } })
+                      })
+                        .then((response) => {
+                          return response.json();
+                        })
+                        .then((data) => {
+                          console.log(data);
+                          createModule(data.moduleid)
+                        });
+                    }}
+                  >Add Module</Button>
                   <label style={{ width: "100%" }} htmlFor="contained-button-file">
                     <input
                       accept="image/*"
@@ -81,7 +57,7 @@ export default function Menu({ menu, menuToggle, editMenu, setEditMenu }) {
                       onChange={(e) => {
                         utils.imageToBase64(e.target.files[0]).then((imageBase64) => {
                           document.body.style.backgroundImage = `url(${imageBase64})`;
-                          fetch(process.env.REACT_APP_API + `/update/${localStorage.getItem("access_token")}`, {
+                          fetch(process.env.REACT_APP_API + `/update/background`, {
                             method: "POST",
                             headers: { "Content-Type": "application/json", Authorization: `Bearer ${window.localStorage.getItem("access_token")}` },
                             body: JSON.stringify({ background: imageBase64 }),
@@ -113,7 +89,7 @@ export default function Menu({ menu, menuToggle, editMenu, setEditMenu }) {
           </ThemeProvider>
         </div>
       </Slide>
-      {!menu && (
+      {!closedMenu && (
         <ThemeProvider theme={themes.menuToggleTheme}>
           <Button variant="contained" sx={{ height: "7%", width: "75%" }} onClick={() => menuToggle(true)}>
             <ArrowDownwardIcon sx={{ transform: "scale(1.34)" }} />
