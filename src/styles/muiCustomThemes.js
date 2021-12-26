@@ -149,7 +149,7 @@ const menuTheme = createTheme({
       styleOverrides: {
         root: {
           transition: "all 1s ease-in-out",
-          width: "81.5%",
+          width: "100%",
           height: "clamp(200px,35%,300px)",
           backgroundColor: "var(--default-menu-button-color)",
           margin: "auto",

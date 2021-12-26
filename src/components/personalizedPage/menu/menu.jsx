@@ -15,39 +15,40 @@ import { Stack, Button, CardContent, Slide } from "@mui/material";
 import utils from "../../../utils/util";
 
 export default function Menu({ editMenu, setEditMenu, createModule }) {
-  const [menu, menuToggle] = React.useState(false)
-  const [closedMenu, closedToggle] = React.useState(true)
+  const [menu, menuToggle] = React.useState(false);
+  const [closedMenu, closedToggle] = React.useState(true);
 
   React.useEffect(() => {
-    if (menu)
-      closedToggle(true)
-    else
-      setTimeout(closedToggle, 525, false)
-  }, [menu])
+    if (menu) closedToggle(true);
+    else setTimeout(closedToggle, 525, false);
+  }, [menu]);
   return (
-    <div>
-      <Slide direction="down" in={menu} mountOnEnter unmountOnExit timeout={500}>
+    <div style={{ position: "absolute", top: "0", height: "300px", right: "50%", transform: "translateX(50%)", width: "80%" }}>
+      <Slide direction="down" in={menu} mountOnEnter unmountOnExit>
         <div>
           <ThemeProvider theme={themes.menuTheme}>
             <Card>
               <CardContent>
                 <Stack direction="column" spacing={2} alignContent="center">
-                  <Button variant="contained"
+                  <Button
+                    variant="contained"
                     onClick={() => {
                       fetch(process.env.REACT_APP_API + "/create", {
                         method: "POST",
                         headers: { Authorization: `Bearer ${window.localStorage.getItem("access_token")}` },
-                        body: JSON.stringify({ "module": { image: "", text: "", position: [0, 0], size: [100, 100] } })
+                        body: JSON.stringify({ module: { image: "", text: "", position: [0, 0], size: [100, 100] } }),
                       })
                         .then((response) => {
                           return response.json();
                         })
                         .then((data) => {
                           console.log(data);
-                          createModule(data.moduleid)
+                          createModule(data.moduleid);
                         });
                     }}
-                  >Add Module</Button>
+                  >
+                    Add Module
+                  </Button>
                   <label style={{ width: "100%" }} htmlFor="contained-button-file">
                     <input
                       accept="image/*"
@@ -91,7 +92,7 @@ export default function Menu({ editMenu, setEditMenu, createModule }) {
       </Slide>
       {!closedMenu && (
         <ThemeProvider theme={themes.menuToggleTheme}>
-          <Button variant="contained" sx={{ height: "7%", width: "75%" }} onClick={() => menuToggle(true)}>
+          <Button variant="contained" sx={{ height: "12%", width: "100%" }} onClick={() => menuToggle(true)}>
             <ArrowDownwardIcon sx={{ transform: "scale(1.34)" }} />
           </Button>
         </ThemeProvider>

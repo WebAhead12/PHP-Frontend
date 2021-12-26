@@ -16,7 +16,7 @@ export default function PersonalizedPageComponent() {
   const [imageCheck, setImageCheck] = React.useState(false); //checks toggle image in editmenu
   const [textCheck, setTextCheck] = React.useState(false); //checks toggle text in editmenu
   const [shortcutMode, setShortcutMode] = React.useState(false); //checks toggle shortcut in editmenu
-  const [deleteModule, setDeleteModule] = React.useState(false)
+  const [deleteModule, setDeleteModule] = React.useState(false);
 
   React.useEffect(() => {
     fetch(process.env.REACT_APP_API + "/background", {
@@ -36,52 +36,52 @@ export default function PersonalizedPageComponent() {
         return response.json();
       })
       .then((data) => {
-        setModulesList(data.modules || [])
+        setModulesList(data.modules || []);
       });
   }, []);
 
   React.useEffect(() => {
-    setText(currentModule.text)
-    setTextCheck(!!currentModule.text)
-    setImageCheck(!!currentModule.image)
-    setShortcutMode(!!currentModule.shortcutMode)
-  }, [currentModule])
+    setText(currentModule.text);
+    setTextCheck(!!currentModule.text);
+    setImageCheck(!!currentModule.image);
+    setShortcutMode(!!currentModule.shortcutMode);
+  }, [currentModule]);
 
   React.useEffect(() => {
-    setModulesList(modulesList.map((module) => module.moduleid == currentModule.moduleid ? { ...module, text: text } : module))
-  }, [text])
+    setModulesList(modulesList.map((module) => (module.moduleid == currentModule.moduleid ? { ...module, text: text } : module)));
+  }, [text]);
 
   React.useEffect(() => {
-    if (!textCheck)
-      setText("")
-  }, [textCheck])
+    if (!textCheck) setText("");
+  }, [textCheck]);
 
   React.useEffect(() => {
-    setModulesList(modulesList.map((module) => module.moduleid == currentModule.moduleid ? { ...module, image: image } : module))
-  }, [image])
+    setModulesList(modulesList.map((module) => (module.moduleid == currentModule.moduleid ? { ...module, image: image } : module)));
+  }, [image]);
 
   React.useEffect(() => {
-    if (!imageCheck)
-      setImage("")
-  }, [imageCheck])
+    if (!imageCheck) setImage("");
+  }, [imageCheck]);
 
   React.useEffect(() => {
-    setModulesList(modulesList.map((module) => module.moduleid == currentModule.moduleid ? { ...module, shortcutMode: shortcutMode, image: image } : module))
-  }, [shortcutMode])
+    setModulesList(
+      modulesList.map((module) => (module.moduleid == currentModule.moduleid ? { ...module, shortcutMode: shortcutMode, image: image } : module))
+    );
+  }, [shortcutMode]);
 
   React.useEffect(() => {
     if (!deleteModule) return;
     setDeleteModule(false);
-    const indx = modulesList.indexOf(currentModule)
-    const tempid = modulesList.moduleid
-    setCurrentModule({})
-    setModulesList([...modulesList.slice(0, indx), ...modulesList.slice(indx + 1)])
+    const indx = modulesList.indexOf(currentModule);
+    const tempid = modulesList.moduleid;
+    setCurrentModule({});
+    setModulesList([...modulesList.slice(0, indx), ...modulesList.slice(indx + 1)]);
     fetch(process.env.REACT_APP_API + "/delete", {
       method: "POST",
       headers: { "Content-Type": "application/json", Authorization: `Bearer ${window.localStorage.getItem("access_token")}` },
-      body: JSON.stringify({ id: tempid })
-    })
-  }, [deleteModule])
+      body: JSON.stringify({ id: tempid }),
+    });
+  }, [deleteModule]);
 
   document.body.style.backgroundColor = "#4D4D54";
 
@@ -98,18 +98,38 @@ export default function PersonalizedPageComponent() {
     setImageCheck: setImageCheck,
     textCheck: textCheck,
     setTextCheck: setTextCheck,
-    setDeleteModule: setDeleteModule
+    setDeleteModule: setDeleteModule,
   };
 
   return (
-    <>
-      <Menu createModule={(id) => { modulesList && setModulesList(modulesList.push({ moduleid: id })) }} editMenu={editMenu} setEditMenu={setEditMenu}></Menu>
+    <div style={{ position: "relative" }}>
+      <Menu
+        createModule={(id) => {
+          modulesList && setModulesList(modulesList.push({ moduleid: id }));
+        }}
+        editMenu={editMenu}
+        setEditMenu={setEditMenu}
+      ></Menu>
       <EditMenu {...editMenuObj}></EditMenu>
-      <div>
-        {modulesList && modulesList.length > 0 && modulesList.map((moduleData) => {
-          return <PhpModule {...moduleData} editMode={editMenu} currentModule={currentModule} onClickFunction={() => setCurrentModule(moduleData)} />;
-        })}
+      <div
+        style={{
+          borderTop: "3px solid black",
+          position: "absolute",
+          zIndex: "5",
+          top: "90px",
+          width: "100vw",
+          borderBottom: "3px solid black",
+          height: "80vh",
+        }}
+      >
+        {modulesList &&
+          modulesList.length > 0 &&
+          modulesList.map((moduleData) => {
+            return (
+              <PhpModule {...moduleData} editMode={editMenu} currentModule={currentModule} onClickFunction={() => setCurrentModule(moduleData)} />
+            );
+          })}
       </div>
-    </>
+    </div>
   );
 }
