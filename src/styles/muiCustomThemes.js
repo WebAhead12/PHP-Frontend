@@ -119,6 +119,7 @@ const editMenu = createTheme({
           backgroundColor: "var(--default-menu-button-color)",
           color: "var(--default-text-color)",
           fontSize: "12px",
+          "&:hover": { backgroundColor: "var(--default-menu-button-hover-color)" },
         },
       },
     },

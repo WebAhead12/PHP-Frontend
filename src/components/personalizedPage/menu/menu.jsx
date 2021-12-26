@@ -20,10 +20,20 @@ export default function Menu({ editMenu, setEditMenu, createModule }) {
 
   React.useEffect(() => {
     if (menu) closedToggle(true);
-    else setTimeout(closedToggle, 525, false);
+    else setTimeout(closedToggle, 475, false);
   }, [menu]);
   return (
-    <div style={{ position: "absolute", top: "0", height: "300px", right: "50%", transform: "translateX(50%)", width: "80%" }}>
+    <div
+      style={{
+        position: "absolute",
+        zIndex: menu ? "6" : "0",
+        top: "0",
+        height: "300px",
+        right: "50%",
+        transform: "translateX(50%)",
+        width: "80%",
+      }}
+    >
       <Slide direction="down" in={menu} mountOnEnter unmountOnExit>
         <div>
           <ThemeProvider theme={themes.menuTheme}>

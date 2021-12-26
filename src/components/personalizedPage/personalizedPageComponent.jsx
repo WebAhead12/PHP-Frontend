@@ -6,6 +6,8 @@ import Menu from "./menu/menu.jsx";
 
 import EditMenu from "./menu/editMenu.jsx";
 
+import LogOut from "./logOut/logOut";
+
 export default function PersonalizedPageComponent() {
   const [modulesList, setModulesList] = React.useState([]);
   const [currentModule, setCurrentModule] = React.useState({});
@@ -102,7 +104,7 @@ export default function PersonalizedPageComponent() {
   };
 
   return (
-    <div style={{ position: "relative" }}>
+    <div style={{ position: "relative", height: "98vh", width: "98vw" }}>
       <Menu
         createModule={(id) => {
           modulesList && setModulesList(modulesList.push({ moduleid: id }));
@@ -115,9 +117,9 @@ export default function PersonalizedPageComponent() {
         style={{
           borderTop: "3px solid black",
           position: "absolute",
-          zIndex: "5",
+          zIndex: "1",
           top: "90px",
-          width: "100vw",
+          width: "99vw",
           borderBottom: "3px solid black",
           height: "80vh",
         }}
@@ -130,6 +132,7 @@ export default function PersonalizedPageComponent() {
             );
           })}
       </div>
+      <LogOut></LogOut>
     </div>
   );
 }

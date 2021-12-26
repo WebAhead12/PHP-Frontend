@@ -1,17 +1,13 @@
 import React from "react";
 
-import themes from "../../../styles/muiCustomThemes";
-
 import LogoutIcon from "@mui/icons-material/Logout";
-
-import { ThemeProvider } from "@mui/material/styles";
 
 import { Stack } from "@mui/material";
 
 export default function LogOut() {
   return (
-    <Stack>
-      <LogoutIcon></LogoutIcon>
+    <Stack direction="row" spacing={2} alignContent="center">
+      <LogoutIcon sx={{ position: "absolute", bottom: "clamp(10px,1%,50px)", transform: "scale(3)", left: "10px" }}></LogoutIcon>
     </Stack>
   );
 }
