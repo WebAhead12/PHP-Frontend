@@ -25,7 +25,6 @@ const accountTheme = createTheme({
           width: "75%",
           maxWidth: "480px",
           height: "calc(75% - 30px)",
-
           margin: "10vh auto",
           backgroundColor: "var(--default-account-background-color)",
         },
@@ -51,6 +50,81 @@ const accountTheme = createTheme({
   },
 });
 
+const editMenu = createTheme({
+  components: {
+    MuiSwitch: {
+      styleOverrides: {
+        root: {
+          width: 73,
+          height: 51,
+          padding: 8,
+        },
+        switchBase: {
+          padding: 11,
+          color: "var(--default-text-color)",
+        },
+        thumb: {
+          width: 28,
+          height: 28,
+          border: "1px solid var(--default-background-color)",
+          backgroundColor: "var(--default-account-background-color)",
+        },
+        track: {
+          backgroundColor: "var(--default-toggle-background-off-color)",
+          opacity: "1 !important",
+          borderRadius: 20,
+          position: "relative",
+          "&:checked": {},
+          "&:before, &:after": {
+            display: "inline-block",
+            position: "absolute",
+            fontSize: 14,
+            top: "50%",
+            width: "50%",
+            transform: "translateY(-50%)",
+            color: "#fff",
+            textAlign: "center",
+          },
+          "&:before": {
+            content: '"on"',
+            left: 1,
+          },
+          "&:after": {
+            content: '"off"',
+            right: 1,
+          },
+        },
+      },
+    },
+    MuiStack: {
+      styleOverrides: {
+        root: {
+          width: "100%",
+        },
+      },
+    },
+    MuiCard: {
+      styleOverrides: {
+        root: {
+          backgroundColor: "var(--default-account-background-color)",
+          width: "250px",
+        },
+      },
+    },
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          width: "100%",
+          height: "24.1%",
+          backgroundColor: "var(--default-menu-button-color)",
+          color: "var(--default-text-color)",
+          fontSize: "12px",
+        },
+      },
+    },
+  },
+});
+
 const menuToggleTheme = createTheme({
   components: {
     MuiButton: {
@@ -62,6 +136,7 @@ const menuToggleTheme = createTheme({
           backgroundColor: "var(--default-menu-button-color)",
           color: "var(--default-text-color)",
           fontSize: "30px",
+          "&:hover": { backgroundColor: "var(--default-menu-button-hover-color)" },
         },
       },
     },
@@ -73,8 +148,9 @@ const menuTheme = createTheme({
     MuiCard: {
       styleOverrides: {
         root: {
+          transition: "all 1s ease-in-out",
           width: "81.5%",
-          height: "35%",
+          height: "clamp(200px,35%,300px)",
           backgroundColor: "var(--default-menu-button-color)",
           margin: "auto",
         },
@@ -88,12 +164,13 @@ const menuTheme = createTheme({
           backgroundColor: "var(--default-menu-button-color)",
           color: "var(--default-text-color)",
           fontSize: "20px",
+          "&:hover": { backgroundColor: "var(--default-menu-button-hover-color)" },
         },
       },
     },
   },
 });
 
-const exports = { accountTheme, menuTheme, menuToggleTheme };
+const exports = { accountTheme, menuTheme, menuToggleTheme, editMenu };
 
 export default exports;

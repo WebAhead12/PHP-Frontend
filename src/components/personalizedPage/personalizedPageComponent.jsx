@@ -8,12 +8,14 @@ import EditMenu from "./menu/editMenu.jsx";
 
 export default function PersonalizedPageComponent() {
   const [menu, menuToggle] = React.useState(false);
-  const [modulesList, setModulesList] = React.useState([{ moduleid: 1, text: "test" }])
-  const [currentModule, setCurrentModule] = React.useState(null)
+  const [modulesList, setModulesList] = React.useState([{ moduleid: 1, text: "test" }]);
+  const [currentModule, setCurrentModule] = React.useState({ moduleid: "", text: "", image: "" });
   const [editMenu, setEditMenu] = React.useState(false);
-  const [imageCheck, setImageCheck] = React.useState(false);
-  const [textCheck, setTextCheck] = React.useState(false);
-  const [shortcutMode, setShortcutMode] = React.useState(false);
+  //Edit menu toggle states
+  const [text, setText] = React.useState(currentModule.text && "");
+  const [imageCheck, setImageCheck] = React.useState(false); //checks toggle image in editmenu
+  const [textCheck, setTextCheck] = React.useState(false); //checks toggle text in editmenu
+  const [shortcutMode, setShortcutMode] = React.useState(false); //checks toggle shortcut in editmenu
 
   React.useEffect(() => {
     fetch(process.env.REACT_APP_API + "/background", {
@@ -30,12 +32,14 @@ export default function PersonalizedPageComponent() {
   document.body.style.backgroundColor = "#4D4D54";
 
   const editMenuObj = {
+    text: text,
+    setText: setText,
     editMenu: editMenu,
     currentModule: currentModule,
     saveCurrentModuleData: (data) => {
       console.log(data);
       console.log(modulesList[0].moduleid == data.moduleid, modulesList[0].moduleid, data, data.moduleid);
-      setModulesList(modulesList.map((module) => module.moduleid == data.moduleid ? { ...module, ...data } : null))
+      setModulesList(modulesList.map((module) => (module.moduleid == data.moduleid ? { ...module, ...data } : null)));
       console.log(modulesList);
     },
     shortcutMode: shortcutMode,
@@ -51,8 +55,11 @@ export default function PersonalizedPageComponent() {
       <Menu menu={menu} menuToggle={menuToggle} editMenu={editMenu} setEditMenu={setEditMenu}></Menu>
       <EditMenu {...editMenuObj}></EditMenu>
       <div>
-        {modulesList[0].text = "Tester"}
-        {modulesList.map((moduleData) => <PhpModule {...moduleData} onClickFunction={() => setCurrentModule(moduleData)} />)}
+        {/* {(modulesList[0].text = text)} */}
+        {modulesList.map((moduleData, index) => {
+          moduleData.text = text;
+          return <PhpModule {...moduleData} onClickFunction={() => setCurrentModule(moduleData)} />;
+        })}
       </div>
     </>
   );
