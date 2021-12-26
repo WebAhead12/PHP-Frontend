@@ -8,6 +8,9 @@ import EditMenu from "./menu/editMenu.jsx";
 
 import LogOut from "./logOut/logOut";
 
+import { v4 as uuidv4 } from 'uuid';
+
+
 export default function PersonalizedPageComponent() {
   const [modulesList, setModulesList] = React.useState([]);
   const [currentModule, setCurrentModule] = React.useState({});
@@ -72,14 +75,12 @@ export default function PersonalizedPageComponent() {
     );
   }, [shortcutMode]);
 
-  React.useEffect(() => { }, [modulesList])
-
   React.useEffect(() => {
     if (!deleteModule) return;
     setDeleteModule(false);
-    const indx = modulesList.indexOf(currentModule);
+    const indx = modulesList.findIndex((module) => module.moduleid == currentModule.moduleid);
     const tempid = currentModule.moduleid;
-    console.log(tempid, indx);
+    console.log({ tempid, indx, modulesList });
     setCurrentModule({});
     fetch(process.env.REACT_APP_API + "/delete", {
       method: "POST",
@@ -89,9 +90,9 @@ export default function PersonalizedPageComponent() {
       return response.json();
     })
       .then((data) => {
-        setModulesList([...modulesList.slice(0, indx), ...modulesList.slice(indx + 1)]);
+        setModulesList((prev) => [...prev.slice(0, indx), ...prev.slice(indx + 1)]);
       });
-  }, [deleteModule])
+  }, [deleteModule, modulesList])
 
   document.body.style.backgroundColor = "#4D4D54";
 
@@ -137,7 +138,7 @@ export default function PersonalizedPageComponent() {
       >
         {modulesList.map((moduleData) => {
           return (
-            <PhpModule {...moduleData} editMode={editMenu} currentModule={currentModule} onClickFunction={() => setCurrentModule(moduleData)} />
+            <PhpModule key={moduleData.moduleid} {...moduleData} editMode={editMenu} setModulesList={setModulesList} currentModule={currentModule} onClickFunction={() => setCurrentModule(moduleData)} />
           );
         })}
       </div>

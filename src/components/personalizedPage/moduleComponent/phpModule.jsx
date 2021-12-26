@@ -50,7 +50,16 @@ export default function PhpModule({
           setSize([ref.offsetWidth, ref.offsetHeight]);
           setPosition([position.x, position.y]);
         }}
-        enableResizing={editMode}
+        enableResizing={{
+          bottom: editMode,
+          bottomLeft: editMode,
+          bottomRight: editMode,
+          left: editMode,
+          right: editMode,
+          top: editMode,
+          topLeft: editMode,
+          topRight: editMode
+        }}
         disableDragging={!editMode}
         bounds="parent"
         style={{
