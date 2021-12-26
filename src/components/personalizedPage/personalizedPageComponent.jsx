@@ -38,7 +38,6 @@ export default function PersonalizedPageComponent() {
         return response.json();
       })
       .then((data) => {
-        console.log(data);
         setModulesList(data.modules.map((module) => ({ ...module.module, moduleid: module.id })) || [])
       });
   }, []);
@@ -73,15 +72,15 @@ export default function PersonalizedPageComponent() {
     );
   }, [shortcutMode]);
 
-  React.useEffect(() => { console.log(modulesList); }, [modulesList])
+  React.useEffect(() => { }, [modulesList])
 
   React.useEffect(() => {
     if (!deleteModule) return;
     setDeleteModule(false);
     const indx = modulesList.indexOf(currentModule);
-    const tempid = modulesList.moduleid;
+    const tempid = currentModule.moduleid;
+    console.log(tempid, indx);
     setCurrentModule({});
-    setModulesList([...modulesList.slice(0, indx), ...modulesList.slice(indx + 1)]);
     fetch(process.env.REACT_APP_API + "/delete", {
       method: "POST",
       headers: { "Content-Type": "application/json", Authorization: `Bearer ${window.localStorage.getItem("access_token")}` },
@@ -90,7 +89,7 @@ export default function PersonalizedPageComponent() {
       return response.json();
     })
       .then((data) => {
-        console.log(data);
+        setModulesList([...modulesList.slice(0, indx), ...modulesList.slice(indx + 1)]);
       });
   }, [deleteModule])
 
@@ -112,11 +111,14 @@ export default function PersonalizedPageComponent() {
     setDeleteModule: setDeleteModule,
   };
 
+
+
   return (
     <div style={{ position: "relative", height: "98vh", width: "98vw" }}>
       <Menu
         createModule={(id) => {
-          modulesList && setModulesList(modulesList.push({ moduleid: id }));
+          console.log(modulesList);
+          setModulesList(modulesList.concat([{ moduleid: id }]));
         }}
         editMenu={editMenu}
         setEditMenu={setEditMenu}
@@ -128,18 +130,16 @@ export default function PersonalizedPageComponent() {
           position: "absolute",
           zIndex: "1",
           top: "90px",
-          width: "99vw",
+          width: "99.9vw",
           borderBottom: "3px solid black",
           height: "80vh",
         }}
       >
-        {modulesList &&
-          modulesList.length > 0 &&
-          modulesList.map((moduleData) => {
-            return (
-              <PhpModule {...moduleData} editMode={editMenu} currentModule={currentModule} onClickFunction={() => setCurrentModule(moduleData)} />
-            );
-          })}
+        {modulesList.map((moduleData) => {
+          return (
+            <PhpModule {...moduleData} editMode={editMenu} currentModule={currentModule} onClickFunction={() => setCurrentModule(moduleData)} />
+          );
+        })}
       </div>
       <LogOut></LogOut>
     </div>

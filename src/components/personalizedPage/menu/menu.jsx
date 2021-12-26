@@ -52,7 +52,6 @@ export default function Menu({ editMenu, setEditMenu, createModule }) {
                           return response.json();
                         })
                         .then((data) => {
-                          console.log(data);
                           createModule(data.moduleid);
                         });
                     }}

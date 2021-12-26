@@ -10,22 +10,20 @@ export default function PhpModule({
   onClickFunction,
   editMode = false,
   shortcutMode = false,
-  x = 0,
-  y = 0,
-  width = 100,
-  height = 100,
+  position = [0, 0],
+  size = [100, 100],
   text = "",
   image = "",
 }) {
-  const [getPosition, setPosition] = React.useState([x, y]);
-  const [getSize, setSize] = React.useState([width, height]);
+  const [getPosition, setPosition] = React.useState(position);
+  const [getSize, setSize] = React.useState(size);
   const [saved, setSaved] = React.useState(0);
 
   React.useEffect(() => {
     fetch(process.env.REACT_APP_API + "/update", {
       method: "POST",
       headers: { "Content-Type": "application/json", Authorization: `Bearer ${window.localStorage.getItem("access_token")}` },
-      body: JSON.stringify({ id: moduleid, module: { image: image, text: text, position: getPosition, size: getSize } }),
+      body: JSON.stringify({ id: moduleid, module: { image: image, text: text, position: getPosition, size: getSize, shortcutMode: shortcutMode } }),
     })
       .then((res) => res.json())
       .then((data) => {
@@ -37,7 +35,7 @@ export default function PhpModule({
         setSaved(-1);
         setTimeout(setSaved, 1000, 0);
       });
-  }, [getPosition, getSize, text, image]);
+  }, [getPosition, getSize, text, image, shortcutMode]);
   return (
     <>
       <Rnd
