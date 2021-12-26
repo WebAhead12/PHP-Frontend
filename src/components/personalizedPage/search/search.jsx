@@ -44,7 +44,6 @@ export default function Search() {
             label="Search"
             fullWidh
             margin="normal"
-            inputProps={{ autoComplete: "new-password" }}
             onChange={(e) => setSearch(e.target.value)}
           />
         </ThemeProvider>
